@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ ! -d 'backup' ]; then
+	mkdir 'backup'
+fi
+mongodump -d timer -o "backup/backup"`date +%Y-%m-%d`

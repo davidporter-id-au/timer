@@ -6,6 +6,10 @@ var mustache = require('mustache');
 var moment = require('moment');
 var fs = require('fs');
 
+if(process.argv.length >= 3)
+	if(process.argv[3] == 'save')
+		var save = process.argv[3];
+
 if(process.argv.length >= 2)
 	var company  = process.argv[2];
 
@@ -34,6 +38,21 @@ MongoClient.connect('mongodb://127.0.0.1:27017/timer', function(err, db) {
 
 			var output = mustache.render(template, {entries: res, total: totalHours, rate: rate, invoiceTotal: invoiceTotal, today: today});
 			fs.writeFileSync('invoice/invoice.html', output);
+			
+			//if requested to save, it'l mark the entries as 'saved' to prevent them coming up again
+			if(save) {
+				db.collection('entries').update(
+					{company: company, fetched: null}, 
+					{$set: {fetched: true}}, 
+					{multi: true},
+					function(e){
+						console.error(e);
+						db.close();
+					});
+				}
+			else {
+				db.close();
+			}
 		}
 
 		db.close();

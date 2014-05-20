@@ -18,7 +18,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017/timer', function(err, db) {
 		if(!e) {
 
 			for(var i = 0 ; i < res.length; i++){
-				console.log('insert into assignment_timesheets(assignment_id, start_date_time, end_date_time, comment, assigned_to) vales(');
+				console.log('insert into assignment_timesheets(assignment_id, start_date_time, end_date_time, comment, assigned_to) values(');
 				console.log('-1, ' + (res[i].starttime / 1000 ) + ', ' + (res[i].endtime / 1000) + ', "' + res[i].commit + '", 1);');
 			}
 

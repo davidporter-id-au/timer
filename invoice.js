@@ -23,11 +23,11 @@ MongoClient.connect('mongodb://127.0.0.1:27017/timer', function(err, db) {
 			var amount = 0;
 			for(var i = 0; i < res.length; i++) {
 				res[i]['startString'] = moment(res[i].starttime).format('D/M/YY, h:mm a');;
-				res[i]['hours'] = moment(res[i].endtime - res[i].starttime).minutes();
+				res[i]['mins'] = ((Math.round((res[i].endtime - res[i].starttime) / 1000 / 60) * 10 ) / 10);
 				amount += (res[i].endtime - res[i].starttime);
 			}
 
-			var totalHours = (Math.round(amount / 1000 / 60 / 60 * 10 ) / 10);
+			var totalHours = ((Math.round(amount / 1000 / 60 / 60) * 10 ) / 10);
 			var rate = 30;
 			var invoiceTotal = rate * totalHours; 
 			var today = moment().format('D/M/YY');

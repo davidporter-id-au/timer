@@ -16,7 +16,8 @@
     "q": "~1.0.1",
     "yesno": "0.0.1",
     "request": "~2.36.0",
-    "xml": "0.0.12"
+    "xml": "0.0.12",
+    "prompt": "~0.2.13"
   },
   "devDependencies": {},
   "repository": {

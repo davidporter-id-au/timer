@@ -1,10 +1,10 @@
 #!/usr/local/bin/node
-var MongoClient = require('mongodb').MongoClient
-	, format = require('util').format;
-
-var mustache = require('mustache');
-var moment = require('moment');
-var fs = require('fs');
+var 	MongoClient = require('mongodb').MongoClient,
+	config = require('./config'),
+	format = require('util').format, 
+	mustache = require('mustache'),
+	moment = require('moment'),
+	fs = require('fs');
 
 if(process.argv.length >= 3)
 	if(process.argv[3] == 'save')
@@ -13,10 +13,10 @@ if(process.argv.length >= 3)
 if(process.argv.length >= 2)
 	var company  = process.argv[2];
 
-MongoClient.connect('mongodb://127.0.0.1:27017/timer', function(err, db) {
+MongoClient.connect(config.mongo, function(err, db) {
 	if(err) throw err;
 
-	db.collection('entries').find({company: company, fetched: null})
+	db.collection('entries').find({company: company, fetched: null}, {sort: 'starttime'})
 		.toArray(function(e, res){
 		if(!e) {
 
@@ -27,17 +27,18 @@ MongoClient.connect('mongodb://127.0.0.1:27017/timer', function(err, db) {
 				amount += (res[i].endtime - res[i].starttime);
 			}
 
-			var totalHours = ((Math.round(amount / 1000 / 60 / 60) * 10 ) / 10);
-			var rate = 30;
+			var totalHours = ((Math.round(amount / 1000 / 60 / 60 * 10)) / 10);
+			var rate = config.rate;
 			var invoiceTotal = rate * totalHours; 
+			console.log('Total hours', totalHours, 'total: ', invoiceTotal)
 			var today = moment().format('D/M/YY');
 
 			//Pass this on to a moustache view
-			
-			var template = fs.readFileSync('invoice/template.html', 'utf8');
+			var template = fs.readFileSync('template/template.html', 'utf8');
 
-			var output = mustache.render(template, {entries: res, total: totalHours, rate: rate, invoiceTotal: invoiceTotal, today: today});
-			fs.writeFileSync('invoice/invoice.html', output);
+			var output = mustache.render(template, {entries: res, total: totalHours, rate: rate, invoiceTotal: invoiceTotal, today: today, config:config, company: company});
+			console.log('written to invoice.html');
+			fs.writeFileSync('invoice.html', output);
 			
 			//if requested to save, it'l mark the entries as 'saved' to prevent them coming up again
 			if(save) {

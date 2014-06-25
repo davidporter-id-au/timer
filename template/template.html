@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 		<style>
 			.invoice-title h2, .invoice-title h3 {
 				display: inline-block;
@@ -35,15 +35,15 @@
 						<div class="col-xs-6">
 							<address>
 								<strong>Billed To:</strong><br>
-								MFDC<br>
+								{{company}}<br>
 							</address>
 						</div>
 						<div class="col-xs-6 text-right">
 							<address>
-								<strong>David Porter</strong><br>
-								ABN: 60372214880<br>
-								0466 238 748<br>
-								contact@davidporter.id.au
+								<strong>{{config.name}}</strong><br>
+								ABN: {{config.abn}}<br>
+								{{config.mobile}}<br>
+								{{config.email}}
 							</address>
 						</div>
 					</div>
@@ -54,7 +54,7 @@
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title"><strong>Order summary</strong></h3>
+							<h3 class="panel-title"><strong>Invoice</strong></h3>
 						</div>
 						<div class="panel-body">
 							<div class="table-responsive">

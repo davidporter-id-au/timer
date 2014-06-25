@@ -5,7 +5,7 @@ var 	MongoClient = require('mongodb').MongoClient,
 	prompt = require('prompt'),
 	config = require('./config'), 
 	fs = require('fs'), 
-	request = require('request-sync');
+	request = require('request');
 
 if(process.argv.length >= 2)
 	var company  = process.argv[2];
@@ -40,15 +40,23 @@ prompt.get(schema, function (err, input) {
 			if(!e) {
 
 				for(var i = 0; i < res.length; i++) {
+					(function(){
+						var id = res[i]['_id'];
+						var minutes= ((Math.round((res[i].endtime - res[i].starttime) / 1000 / 60 * 100))/100)
+						var decimalHours = minutes / 60;
+						
+						//Create an xml object to send:
+						var data = "<time-entry><person-id>" + config.basecampUserid + "</person-id><date>" + moment(res[i].starttime).toISOString() + "</date><hours>" + decimalHours  + "</hours><description>" + res[i].commit + "</description></time-entry>";
 
-					//Create an xml object to send:
-					var data = "<time-entry><person-id>" + config.basecampUserid + "</person-id><date>" + moment(res[i].starttime).toISOString() + "</date><hours>" + ((Math.round((res[i].endtime - res[i].starttime) / 1000 / 60) * 10 ) / 10) / 60; + "</hours><description>" + res[i].commit + "</description></time-entry>";
-					console.log(data);
+						//Send it. Note this is an async request 
+						request({url: config.basecamp, body: data, method: 'POST', headers: { "Content-type": 'application/xml'}}, function(err, res, body){
+							if(err)
+								throw err;
 
-					//Send it. Note this is a blocking request
-					var result = request({url: config.basecamp, body: data, method: 'POST', headers: { "Content-type": 'application/xml'}, auth:{username: config.basecampUsername, pass: input.password}});
-					console.log('Entry id:', res[i]._id);
-					console.log(result.body);
+							console.log('Entry id: ', id, 'Decimal hours:', decimalHours, '/ Minutes: ', minutes);
+							console.log(body);
+						}).auth(config.basecampUsername, input.password);
+					})();
 				}
 				
 				//if requested to save, it'll mark the entries as 'saved' to prevent them coming up again

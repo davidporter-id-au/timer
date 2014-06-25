@@ -1,4 +1,4 @@
-
+#!/usr/local/bin/node
 var 	MongoClient = require('mongodb').MongoClient, 
 	format = require('util').format,  
 	moment = require('moment'), 

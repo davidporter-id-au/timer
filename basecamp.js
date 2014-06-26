@@ -7,12 +7,18 @@ var 	MongoClient = require('mongodb').MongoClient,
 	fs = require('fs'), 
 	request = require('request');
 
-if(process.argv.length >= 2)
+if(process.argv.length >= 3) {
 	var company  = process.argv[2];
+	var project = process.argv[3];
+}
+else {
+	console.log('usage: ./basecamp.js <company> <project>');
+	process.exit(1);
+}
 
-if(process.argv.length >= 3)
-	if(process.argv[3] == 'save')
-		var save = process.argv[3];
+if(process.argv.length >= 4)
+	if(process.argv[4] == 'save')
+		var save = process.argv[4];
 
 //Prompt schema
 var schema = {
@@ -49,7 +55,7 @@ prompt.get(schema, function (err, input) {
 						var data = "<time-entry><person-id>" + config.basecampUserid + "</person-id><date>" + moment(res[i].starttime).toISOString() + "</date><hours>" + decimalHours  + "</hours><description>" + res[i].commit + "</description></time-entry>";
 
 						//Send it. Note this is an async request 
-						request({url: config.basecamp, body: data, method: 'POST', headers: { "Content-type": 'application/xml'}}, function(err, res, body){
+						request({url: config.basecamp[project], body: data, method: 'POST', headers: { "Content-type": 'application/xml'}}, function(err, res, body){
 							if(err)
 								throw err;
 

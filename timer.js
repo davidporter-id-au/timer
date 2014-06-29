@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var prompt = require('prompt');
 mongoose.connect('mongodb://localhost/timer');
 
-if(process.argv.length < 3) {
-	console.log('Use: ./timer.js <company>');
-	process.exit();
+if(process.argv.length < 4) {
+	console.log('Use: ./timer.js <company> <project>');
+	process.exit(1);
 }
 
 var Entry = mongoose.model('Entry', 
@@ -13,6 +13,7 @@ var Entry = mongoose.model('Entry',
 	starttime: Number, 
 	endtime: Number, 
 	commit: String, 
+	project: String, 
 	company: String
 });
 
@@ -29,7 +30,8 @@ var createEntry = function(c)  {
 			starttime: start, 
 			endtime: end, 
 			commit: res.commit,
-			company: process.argv[2]
+			company: process.argv[2],
+			project: process.argv[3]
 		});
 		entry.save(function(err){
 			if(err) {

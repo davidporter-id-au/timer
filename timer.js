@@ -1,21 +1,14 @@
 #!/usr/local/bin/node
-var mongoose = require('mongoose');
-var prompt = require('prompt');
+var 	mongoose = require('mongoose'), 
+	prompt = require('prompt');
+
 mongoose.connect('mongodb://localhost/timer');
+var Entry = require('./models/entry.js')(mongoose);
 
 if(process.argv.length < 4) {
 	console.log('Use: ./timer.js <company> <project>');
 	process.exit(1);
 }
-
-var Entry = mongoose.model('Entry', 
-{ 
-	starttime: Number, 
-	endtime: Number, 
-	commit: String, 
-	project: String, 
-	company: String
-});
 
 var createEntry = function(c)  {
 	var start = new Date().getTime(); //get the starting timestamp

@@ -14,11 +14,11 @@
     "mongoose": "~3.8.12",
     "mustache": "~0.8.1",
     "q": "~1.0.1",
-    "yesno": "0.0.1",
     "request": "~2.36.0",
     "xml": "0.0.12",
     "prompt": "~0.2.13",
-    "date-util": "~1.2.0"
+    "date-util": "~1.2.0",
+    "keypress-prompt": "~0.3.2"
   },
   "devDependencies": {},
   "repository": {

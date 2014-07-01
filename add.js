@@ -25,7 +25,7 @@ var addEntry = function(){
 			
 		},
 		function(res, cb) {
-			var start = new Date().strtotime(res.start) * 1000; //Create a javascript timestamp  
+			var start = res.start * 1000; //Create a javascript timestamp  
 			var end = start + (res.hours * 60 * 60 * 1000);
 			console.log('Start: ', new Date(start));
 			console.log('End: ', new Date(end));

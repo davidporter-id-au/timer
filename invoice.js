@@ -40,7 +40,7 @@ MongoClient.connect(config.mongo, function(err, db) {
 			console.log('written to invoice.html');
 			fs.writeFileSync('invoice.html', output);
 			
-			//if requested to save, it'l mark the entries as 'saved' to prevent them coming up again
+			//if requested to save, it'll mark the entries as 'saved' to prevent them coming up again
 			if(save) {
 				db.collection('entries').update(
 					{company: company, fetched: null}, 

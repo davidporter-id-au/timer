@@ -41,7 +41,7 @@ prompt.get(schema, function (err, input) {
 	MongoClient.connect(config.mongo, function(err, db) {
 		if(err) throw err;
 
-		db.collection('entries').find({company: company, fetched: null, uploaded: null})
+		db.collection('entries').find({company: company, project: project, fetched: null, uploaded: null})
 			.toArray(function(e, res){
 			if(!e) {
 

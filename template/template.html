@@ -63,6 +63,7 @@
 										<tr>
 											<td class="col-xs-2"><strong>start</strong></td>
 											<td class="col-xs-1"><strong>Minutes</strong></td>
+											<td class="col-xs-1"><strong>Project</strong></td>
 											<td class="col-xs-9"><strong>Commit</strong></td>
 										</tr>
 									</thead>
@@ -71,21 +72,25 @@
 										<tr class="entries">
 											<td>{{startString}}</td>
 											<td class="text-left">{{mins}}</td>
+											<td class="text-left">{{project}}</td>
 											<td class="text-left">{{commit}}</td>
 										</tr>
 										{{/entries}}
 										<tr>
+											<td class="thick-line"></td>
 											<td class="thick-line"></td>
 											<td class="thick-line text-center"><strong>Hours</strong></td>
 											<td class="thick-line text-right">{{total}}</td>
 										</tr>
 										<tr>
 											<td class="no-line"></td>
+											<td class="thick-line"></td>
 											<td class="no-line text-center"><strong>Rate</strong></td>
 											<td class="no-line text-right">{{rate}}</td>
 										</tr>
 										<tr>
 											<td class="no-line"></td>
+											<td class="thick-line"></td>
 											<td class="no-line text-center"><strong>Total</strong></td>
 											<td class="no-line text-right">${{invoiceTotal}}</td>
 										</tr>
